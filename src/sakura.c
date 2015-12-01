@@ -1881,6 +1881,7 @@ sakura_conf_changed (GtkWidget *widget, void *data)
 
 /******* Functions ********/
 
+
 static void
 sakura_init()
 {
