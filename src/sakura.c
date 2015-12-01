@@ -669,6 +669,28 @@ sakura_button_press(GtkWidget *widget, GdkEventButton *button_event, gpointer us
 	return FALSE;
 }
 
+/*
+	Handler for notebook focus-in-event
+	bugfix (https://bugs.launchpad.net/sakura/+bug/1510186)
+*/
+static gboolean
+sakura_notebook_focus_in(GtkWidget *widget, void *data)
+{
+	struct terminal *term;
+	int index;
+
+	index = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
+	term = sakura_get_page_term(sakura, index);
+
+	/* if found term - stop event propagation */
+	if(term != NULL) {
+		gtk_widget_grab_focus(term->vte);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 
 static void
 sakura_page_removed (GtkWidget *widget, void *data)
@@ -1859,7 +1881,6 @@ sakura_conf_changed (GtkWidget *widget, void *data)
 
 /******* Functions ********/
 
-
 static void
 sakura_init()
 {
@@ -2253,6 +2274,9 @@ sakura_init()
 	g_signal_connect(G_OBJECT(sakura.main_window), "key-press-event", G_CALLBACK(sakura_key_press), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "configure-event", G_CALLBACK(sakura_resized_window), NULL);
 	g_signal_connect(G_OBJECT(sakura.main_window), "show", G_CALLBACK(sakura_window_show_event), NULL);
+
+	/* bugfix (https://bugs.launchpad.net/sakura/+bug/1510186) - return focus to current vte */
+	g_signal_connect(G_OBJECT(sakura.notebook), "focus-in-event", G_CALLBACK(sakura_notebook_focus_in), NULL);
 }
 
 
@@ -2725,6 +2749,12 @@ sakura_set_tab_label_text(const gchar *title, gint page)
 	}
 }
 
+gboolean
+sakura_return_focus_to_vte(GtkWidget *widget, GdkEvent *event, void *data)
+{
+	gtk_widget_grab_focus(data);
+	return TRUE;
+}
 
 static void
 sakura_add_tab()
@@ -2997,9 +3027,6 @@ sakura_add_tab()
 
 	/* Change cursor */	
 	vte_terminal_set_cursor_shape (VTE_TERMINAL(term->vte), sakura.cursor_type);
-
-	/* Grrrr. Why the fucking label widget in the notebook STEAL the fucking focus? */
-	gtk_widget_grab_focus(term->vte);
 
 	/* FIXME: Possible race here. Find some way to force to process all configure
 	 * events before setting keep_fc again to false */
