@@ -3,22 +3,19 @@ Installing sakura
 
 * How to compile and install this beast ?
 
-	$ cmake . 
-	$ make
-	$ su -c 'make install'
+```
+$ cmake . 
+$ make
+$ su -c 'make install'
+```
+sakura now uses the CMake building system. Welcome to an autotools free world!! (Yes, sakura used MOBS before this, but what the hell,	i wanted to say out loud that ;-))
 
-	sakura now use the CMake building system. Welcome to an autotools
-	free world!! (Yes, sakura used MOBS before this, but what the hell,
-	i wanted to say out loud that ;-))
+To install sakura with a different prefix, cmake needs to be invoked with the proper environment variables, so to install sakura in /usr, you should do:
+```
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr .
+```
 
-	To install sakura with a different prefix, cmake needs to be
-	invoked with the proper environment variables, so to install
-	sakura in /usr, you should do:
-
-	$ cmake -DCMAKE_INSTALL_PREFIX=/usr .
-
-	Use CMAKE_BUILD_TYPE=Debug or CMAKE_BUILD_TYPE=Release if you
-	wish to select the build type. Default is Release.
+Use CMAKE_BUILD_TYPE=Debug or CMAKE_BUILD_TYPE=Release if you wish to select the build type. Default is Release.
 
 
 Keybindings support
