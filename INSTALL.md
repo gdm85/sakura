@@ -60,13 +60,11 @@ Keybindings support
 	Ctrl + Shift + C                 -> Copy selected text
 	Ctrl + Shift + V                 -> Paste selected text
 	Ctrl + Shift + N                 -> Set tab name
-	
-	Ctr  + Left cursor               -> Previous tab
-	Ctr  + Right cursor              -> Next tab
+	Alt  + Left cursor               -> Previous tab
+	Alt  + Right cursor              -> Next tab
 	Ctr  + Shift + Left cursor       -> Move tab to the left
 	Ctr  + Shift + Right cursor      -> Move tab to the right
-	Ctrl + [1-9]                     -> Switch to tab N (1-9)
-
+	Alt  + [1-9]                     -> Switch to tab N (1-9)
 	Ctrl + Shift + S                 -> Toggle/Untoggle scrollbar
 	Ctrl + Shift + Mouse left button -> Open link
 	F11                              -> Fullscreen
