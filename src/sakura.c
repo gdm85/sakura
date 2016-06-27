@@ -322,6 +322,7 @@ static struct {
 	GRegex *http_regexp, *mail_regexp;
 	Display *dpy;
 	char *argv[3];
+	bool title_set_byuser;
 } sakura;
 
 struct terminal {
@@ -922,8 +923,12 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
 
 	/* User set values overrides any other one, but title should be changed */
-	if (!term->label_set_byuser) 
+	if (!term->label_set_byuser)
 		sakura_set_tab_label_text(title, modified_page);
+
+	// do not override title if set by user
+	if (sakura.title_set_byuser)
+		return;
 
 	if (option_title == NULL) {
 		if (n_pages==1) {
@@ -1462,9 +1467,9 @@ sakura_set_title_dialog (GtkWidget *widget, void *data)
 	if (response==GTK_RESPONSE_ACCEPT) {
 		/* Bug #257391 shadow reachs here too... */
 		gtk_window_set_title(GTK_WINDOW(sakura.main_window), gtk_entry_get_text(GTK_ENTRY(entry)));
+		sakura.title_set_byuser=TRUE;
 	}
 	gtk_widget_destroy(title_dialog);
-
 }
 
 
@@ -2423,6 +2428,7 @@ sakura_init()
 
 	sakura.label_count=1;
 	sakura.fullscreen=FALSE;
+	sakura.title_set_byuser=FALSE;
 	sakura.resized=FALSE;
 	sakura.keep_fc=false;
 	sakura.externally_modified=false;
