@@ -2345,9 +2345,6 @@ sakura_init()
 	/* set default title pattern from config or NULL */
 	sakura.tab_default_title = g_key_file_get_string(sakura.cfg, cfg_group, "tab_default_title", NULL);
 
-	/* Use always GTK header bar*/
-	g_object_set(gtk_settings_get_default(), "gtk-dialogs-use-header", TRUE, NULL);
-
 	sakura.provider = gtk_css_provider_new();
 
 	sakura.main_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
