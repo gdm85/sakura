@@ -458,8 +458,10 @@ static const char *option_geometry;
 static char *option_config_file;
 static gboolean option_fullscreen;
 static gboolean option_maximize;
+static gboolean option_help;
 
 static GOptionEntry entries[] = {
+	{ "help", 'h', 0, G_OPTION_ARG_NONE, &option_help, N_("Show help options"), NULL },
 	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
 	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
 	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
@@ -3383,6 +3385,22 @@ main(int argc, char **argv)
 		fprintf(stderr, "%s\n", error->message);
 		g_error_free(error);
 		exit(1);
+	}
+
+	if (option_help) {
+		gchar *help;
+		help = g_option_context_get_help (context, TRUE, NULL);
+		// trick: replace Windows-esque question mark with 'h'
+		gchar *p, *eh=help+strlen(help);
+		for(p=help;p<eh;++p) {
+			if (*p == '?') {
+				*p = 'h';
+				break;
+			}
+		}
+		fprintf(stdout, "%s", help);
+		g_free(help);
+		return 0;
 	}
 
 	g_option_context_free(context);
