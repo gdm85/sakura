@@ -1,13 +1,12 @@
 # Sakura fork
 
 This is a [Sakura](http://bazaar.launchpad.net/~dabisu/sakura/sakura/files) fork with following features:
-* builds on Ubuntu 14.04
-* separator as first item of right click popup menu (to avoid annoying new tab opened)
+* builds on Ubuntu 14.04 (see `trusty` branch)
+* separator as first item of the right click popup menu (to avoid annoying new tab opened)
 * do not change window title if it was set by user
+* swap 'Fullscreen' and 'Set window title' from 1st and 2nd menu levels
 
-I have backported most code commits from upstream (except translations and background feature) and plan to backport at least new bugfixes/stabilization commits.
-
-You can find my copy of upstream in the [master branch](https://github.com/gdm85/sakura/tree/master).
+You can find an upstream mirror in the [master branch](https://github.com/gdm85/sakura/tree/master).
 
 # Installation instructions
 
